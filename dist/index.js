@@ -123,7 +123,7 @@ function useForm(_ref) {
     onChange: onChange,
     onSetImage: onSetImage,
     onSubmit: onSubmit,
-    result: result,
+    validationResult: validationResult,
     formHelper: formHelper,
     onValidate: onValidate,
     setFormState: setFormState
