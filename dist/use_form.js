@@ -76,9 +76,15 @@ function useForm(_ref) {
       response = _React$useState10[0],
       setResponse = _React$useState10[1];
 
-  var onSetIsEditing = function onSetIsEditing(state) {
+  var _React$useState11 = _react["default"].useState(),
+      _React$useState12 = _slicedToArray(_React$useState11, 2),
+      editUrl = _React$useState12[0],
+      setEditUrl = _React$useState12[1];
+
+  var onSetIsEditing = function onSetIsEditing(state, url) {
     setIsEditing(true);
     setFormState(state);
+    setEditUrl(url || state.url);
   };
 
   var onClearForm = function onClearForm() {
@@ -138,7 +144,7 @@ function useForm(_ref) {
     if (!onValidate()) return;
     invokeShowActivityDialog("Requesting");
     var method = isEditing ? "put" : "post";
-    var action = isEditing ? formState.url : postAction;
+    var action = isEditing ? editUrl : postAction;
     Client({
       action: action,
       method: method,
@@ -174,6 +180,7 @@ function useForm(_ref) {
     setFormState: setFormState,
     errors: errors,
     response: response,
-    onClearForm: onClearForm
+    onClearForm: onClearForm,
+    setEditUrl: setEditUrl
   };
 }
