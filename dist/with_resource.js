@@ -31,7 +31,8 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 var _default = function _default(Component, _ref) {
   var newPath = _ref.newPath,
-      editPath = _ref.editPath;
+      editPath = _ref.editPath,
+      formProps = _ref.formProps;
   return function (props) {
     var _React$useState = _react["default"].useState(false),
         _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -62,8 +63,15 @@ var _default = function _default(Component, _ref) {
       }
     }, []);
 
+    var form = useForm(formProps);
+
+    _react["default"].useEffect(function () {
+      if (!resouce) return;
+      setIsEditing(resouce);
+    }, [resouce]);
+
     if (isFetching) return /*#__PURE__*/_react["default"].createElement(_ui.Activity, null);
-    return /*#__PURE__*/_react["default"].createElement(Component, _extends({}, resource, props));
+    return /*#__PURE__*/_react["default"].createElement(Component, _extends({}, resource, props, form));
   };
 };
 
