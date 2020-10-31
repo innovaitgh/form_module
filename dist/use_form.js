@@ -145,8 +145,6 @@ function useForm(_ref) {
   };
 
   var onSubmit = function onSubmit(e) {
-    var _params;
-
     e.preventDefault();
     if (!onValidate()) return;
     showActivityDialog("Requesting");
@@ -155,7 +153,8 @@ function useForm(_ref) {
     Client({
       action: action,
       method: method,
-      params: (_params = {}, _defineProperty(_params, name, formState), _defineProperty(_params, "headers", headers), _params)
+      params: _defineProperty({}, name, formState),
+      headers: headers
     }).then(function (res) {
       setFormResult(res);
       var status = res.status,
