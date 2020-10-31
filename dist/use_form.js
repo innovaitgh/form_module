@@ -13,6 +13,10 @@ var _attr_accessor = require("attr_accessor");
 
 var _router = require("router");
 
+var _activity_dialog = require("activity_dialog");
+
+var _snackbar = require("snackbar");
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -36,17 +40,10 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function useForm(_ref) {
   var init = _ref.init,
       validatorProps = _ref.validatorProps,
-      invokeShowActivityDialog = _ref.invokeShowActivityDialog,
-      eventHideActivityDialog = _ref.eventHideActivityDialog,
-      documentSnackbarErrorMessage = _ref.documentSnackbarErrorMessage,
-      documentSnackbarSuccessfullMessage = _ref.documentSnackbarSuccessfullMessage,
       headers = _ref.headers,
-      _ref$keys = _ref.keys,
-      keys = _ref$keys === void 0 ? [] : _ref$keys,
       url_params = _ref.url_params,
       name = _ref.name,
-      postAction = _ref.postAction,
-      updateAction = _ref.updateAction;
+      postAction = _ref.postAction;
 
   var _React$useState = _react["default"].useState(false),
       _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -73,13 +70,21 @@ function useForm(_ref) {
 
   var _React$useState9 = _react["default"].useState(),
       _React$useState10 = _slicedToArray(_React$useState9, 2),
-      response = _React$useState10[0],
-      setResponse = _React$useState10[1];
+      formResult = _React$useState10[0],
+      setFormResult = _React$useState10[1];
 
   var _React$useState11 = _react["default"].useState(),
       _React$useState12 = _slicedToArray(_React$useState11, 2),
       editUrl = _React$useState12[0],
       setEditUrl = _React$useState12[1];
+
+  var showActivityDialog = _react["default"].useContext(_activity_dialog.ShowActivityDialogDispatch);
+
+  var hideActivityDialog = _react["default"].useContext(_activity_dialog.HideActivityDialogDispatch);
+
+  var documentSnackbarSuccessfulMessage = _react["default"].useContext(_snackbar.DocumentSnackbarSuccessfulMessageDispatch);
+
+  var documentSnackbarErrorMessage = _react["default"].useContext(_snackbar.DocumentSnackbarErrorMessageDispatch);
 
   var onSetIsEditing = function onSetIsEditing(state, url) {
     setIsEditing(true);
@@ -140,30 +145,32 @@ function useForm(_ref) {
   };
 
   var onSubmit = function onSubmit(e) {
+    var _params;
+
     e.preventDefault();
     if (!onValidate()) return;
-    invokeShowActivityDialog("Requesting");
+    showActivityDialog("Requesting");
     var method = isEditing ? "put" : "post";
     var action = isEditing ? editUrl : postAction;
     Client({
       action: action,
       method: method,
-      params: _defineProperty({}, name, formState)
+      params: (_params = {}, _defineProperty(_params, name, formState), _defineProperty(_params, "headers", headers), _params)
     }).then(function (res) {
-      setResponse(res);
+      setFormResult(res);
       var status = res.status,
           response = res.response,
           headers = res.headers;
 
       if (status === 200 || status === 201 || status === 204) {
-        documentSnackbarSuccessfullMessage("Success");
+        documentSnackbarSuccessfulMessage("Success");
       } else {
         throw Error;
       }
     })["catch"](function (err) {
       return documentSnackbarErrorMessage("An error unoccured");
     })["finally"](function () {
-      return eventHideActivityDialog();
+      return hideActivityDialog();
     });
   };
 
@@ -179,8 +186,10 @@ function useForm(_ref) {
     onValidate: onValidate,
     setFormState: setFormState,
     errors: errors,
-    response: response,
+    formResult: formResult,
     onClearForm: onClearForm,
     setEditUrl: setEditUrl
   };
 }
+
+;
