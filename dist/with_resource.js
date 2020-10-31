@@ -51,11 +51,12 @@ var _default = function _default(Component, _ref) {
       return setIsFetching(false);
     };
 
-    var resource = (0, _resource.useResource)({
+    var r = (0, _resource.useResource)({
       showActivity: showActivity,
       hideActivity: hideActivity
     });
-    var fetchResource = resource.fetchResource;
+    var fetchResource = r.fetchResource,
+        resouce = r.resouce;
 
     _react["default"].useEffect(function () {
       if (window.location.pathname !== newPath) {
@@ -73,7 +74,7 @@ var _default = function _default(Component, _ref) {
     }, [resouce]);
 
     if (isFetching) return /*#__PURE__*/_react["default"].createElement(_ui.Activity, null);
-    return /*#__PURE__*/_react["default"].createElement(Component, _extends({}, resource, props, form));
+    return /*#__PURE__*/_react["default"].createElement(Component, _extends({}, r, props, form));
   };
 };
 
