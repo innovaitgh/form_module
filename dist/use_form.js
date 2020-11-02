@@ -163,6 +163,11 @@ function useForm(_ref) {
 
       if (status === 200 || status === 201 || status === 204) {
         documentSnackbarSuccessfulMessage("Success");
+      } else if (status === 422) {
+        documentSnackbarErrorMessage("Kindly correct form errors");
+        var body = JSON.parse(response);
+        setErrors(body.errors);
+        onValidate();
       } else {
         throw Error;
       }
