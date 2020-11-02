@@ -153,7 +153,7 @@ function useForm(_ref) {
     Client({
       action: action,
       method: method,
-      params: _defineProperty({}, name, formState),
+      params: name ? _defineProperty({}, name, formState) : formState,
       headers: headers
     }).then(function (res) {
       setFormResult(res);
