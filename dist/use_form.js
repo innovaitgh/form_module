@@ -167,7 +167,8 @@ function useForm(_ref) {
         documentSnackbarErrorMessage("Kindly correct form errors");
         var body = JSON.parse(response);
         setErrors(body.errors);
-        onValidate();
+        validator.showMessages();
+        setForceUpdate(!forceUpdate);
       } else {
         throw Error;
       }
