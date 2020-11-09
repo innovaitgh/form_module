@@ -11,8 +11,6 @@ var _simpleReactValidator = _interopRequireDefault(require("simple-react-validat
 
 var _attr_accessor = require("attr_accessor");
 
-var _router = require("router");
-
 var _activity_dialog = require("activity_dialog");
 
 var _snackbar = require("snackbar");
