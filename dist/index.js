@@ -9,8 +9,6 @@ var _react = _interopRequireDefault(require("react"));
 
 var _simpleReactValidator = _interopRequireDefault(require("simple-react-validator"));
 
-var _attr_accessor = require("attr_accessor");
-
 var _activity_dialog = require("activity_dialog");
 
 var _snackbar = require("snackbar");
@@ -109,7 +107,7 @@ function useForm(_ref) {
   var onSetImage = function onSetImage(_ref3, file) {
     var target = _ref3.target;
     var name = target.name;
-    setFormState(_objectSpread({}, (0, _attr_accessor.set)(formState, _defineProperty({}, name, file))));
+    setFormState(_objectSpread(_objectSpread({}, formState), {}, _defineProperty({}, name, file)));
   };
 
   var onChange = function onChange(_ref4) {
@@ -118,7 +116,7 @@ function useForm(_ref) {
         value = target.value,
         checked = target.checked;
     var actual = target.type === "checkbox" ? checked : value;
-    setFormState(_objectSpread({}, (0, _attr_accessor.set)(formState, _defineProperty({}, name, actual))));
+    setFormState(_objectSpread(_objectSpread({}, formState), {}, _defineProperty({}, name, actual)));
   };
 
   var onValidate = function onValidate() {
