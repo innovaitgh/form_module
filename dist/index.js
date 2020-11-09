@@ -39,7 +39,8 @@ function useForm(_ref) {
       headers = _ref.headers,
       url_params = _ref.url_params,
       name = _ref.name,
-      initAction = _ref.initAction;
+      initAction = _ref.initAction,
+      afterValidate = _ref.afterValidate;
 
   var _React$useState = _react["default"].useState(false),
       _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -152,7 +153,8 @@ function useForm(_ref) {
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    setValid(onValidate());
+    if (!onValidate()) return;
+    afterValidate();
   };
 
   var onSubmit = function onSubmit(e) {
