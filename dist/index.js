@@ -79,6 +79,11 @@ function useForm(_ref) {
       action = _React$useState14[0],
       setAction = _React$useState14[1];
 
+  var _React$useState15 = _react["default"].useState(),
+      _React$useState16 = _slicedToArray(_React$useState15, 2),
+      valid = _React$useState16[0],
+      setValid = _React$useState16[1];
+
   var showActivityDialog = _react["default"].useContext(_activity_dialog.ShowActivityDialogDispatch);
 
   var hideActivityDialog = _react["default"].useContext(_activity_dialog.HideActivityDialogDispatch);
@@ -145,6 +150,11 @@ function useForm(_ref) {
     return help;
   };
 
+  var handleSubmit = function handleSubmit(e) {
+    e.preventDefault();
+    setValid(onValidate());
+  };
+
   var onSubmit = function onSubmit(e) {
     e.preventDefault();
     if (!onValidate()) return;
@@ -194,7 +204,9 @@ function useForm(_ref) {
     errors: errors,
     formResult: formResult,
     onClearForm: onClearForm,
-    setEditUrl: setEditUrl
+    setEditUrl: setEditUrl,
+    valid: valid,
+    handleSubmit: handleSubmit
   };
 }
 
