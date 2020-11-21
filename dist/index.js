@@ -85,6 +85,8 @@ function useForm(_ref) {
       valid = _React$useState16[0],
       setValid = _React$useState16[1];
 
+  var formStateRef = _react["default"].useRef();
+
   var showActivityDialog = _react["default"].useContext(_activity_dialog.ShowActivityDialogDispatch);
 
   var hideActivityDialog = _react["default"].useContext(_activity_dialog.HideActivityDialogDispatch);
@@ -113,7 +115,7 @@ function useForm(_ref) {
   var onSetImage = function onSetImage(_ref3, file) {
     var target = _ref3.target;
     var name = target.name;
-    setFormState(_objectSpread(_objectSpread({}, formState), {}, _defineProperty({}, name, file)));
+    setFormState(_objectSpread(_objectSpread({}, formStateRef.current), {}, _defineProperty({}, name, file)));
   };
 
   var onChange = function onChange(_ref4) {
@@ -122,7 +124,7 @@ function useForm(_ref) {
         value = target.value,
         checked = target.checked;
     var actual = target.type === "checkbox" ? checked : value;
-    setFormState(_objectSpread(_objectSpread({}, formState), {}, _defineProperty({}, name, actual)));
+    setFormState(_objectSpread(_objectSpread({}, formStateRef.current), {}, _defineProperty({}, name, actual)));
   };
 
   var onValidate = function onValidate() {
@@ -191,6 +193,10 @@ function useForm(_ref) {
       return hideActivityDialog();
     });
   };
+
+  _react["default"].useEffect(function () {
+    formStateRef.current = formState;
+  }, [formState]);
 
   return {
     formState: formState,
