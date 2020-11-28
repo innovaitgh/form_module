@@ -9,10 +9,6 @@ var _react = _interopRequireDefault(require("react"));
 
 var _simpleReactValidator = _interopRequireDefault(require("simple-react-validator"));
 
-var _activity_dialog = require("activity_dialog");
-
-var _snackbar = require("snackbar");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -35,12 +31,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function useForm(_ref) {
   var init = _ref.init,
-      validatorProps = _ref.validatorProps,
-      headers = _ref.headers,
-      url_params = _ref.url_params,
-      name = _ref.name,
-      initAction = _ref.initAction,
-      afterValidate = _ref.afterValidate;
+      validatorProps = _ref.validatorProps;
 
   var _React$useState = _react["default"].useState(false),
       _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -65,40 +56,17 @@ function useForm(_ref) {
       errors = _React$useState8[0],
       setErrors = _React$useState8[1];
 
-  var _React$useState9 = _react["default"].useState(),
-      _React$useState10 = _slicedToArray(_React$useState9, 2),
-      formResult = _React$useState10[0],
-      setFormResult = _React$useState10[1];
-
-  var _React$useState11 = _react["default"].useState(),
-      _React$useState12 = _slicedToArray(_React$useState11, 2),
-      editUrl = _React$useState12[0],
-      setEditUrl = _React$useState12[1];
-
-  var _React$useState13 = _react["default"].useState(initAction),
-      _React$useState14 = _slicedToArray(_React$useState13, 2),
-      action = _React$useState14[0],
-      setAction = _React$useState14[1];
-
-  var _React$useState15 = _react["default"].useState(),
-      _React$useState16 = _slicedToArray(_React$useState15, 2),
-      valid = _React$useState16[0],
-      setValid = _React$useState16[1];
-
   var formStateRef = _react["default"].useRef();
 
-  var showActivityDialog = _react["default"].useContext(_activity_dialog.ShowActivityDialogDispatch);
-
-  var hideActivityDialog = _react["default"].useContext(_activity_dialog.HideActivityDialogDispatch);
-
-  var documentSnackbarSuccessfulMessage = _react["default"].useContext(_snackbar.DocumentSnackbarSuccessfulMessageDispatch);
-
-  var documentSnackbarErrorMessage = _react["default"].useContext(_snackbar.DocumentSnackbarErrorMessageDispatch);
+  var handleSetErrors = function handleSetErrors(e) {
+    setErrors(e);
+    validator.showMessages();
+    setForceUpdate(!forceUpdate);
+  };
 
   var onSetIsEditing = function onSetIsEditing(state, url) {
     setIsEditing(true);
     setFormState(state);
-    setEditUrl(url || state.url);
   };
 
   var onClearForm = function onClearForm() {
@@ -153,47 +121,6 @@ function useForm(_ref) {
     return help;
   };
 
-  var handleSubmit = function handleSubmit(e) {
-    e.preventDefault();
-    if (!onValidate()) return;
-    afterValidate();
-  };
-
-  var onSubmit = function onSubmit(e) {
-    e.preventDefault();
-    if (!onValidate()) return;
-    showActivityDialog("Requesting");
-    var method = isEditing ? "put" : "post";
-    var a = isEditing ? editUrl : action;
-    Client({
-      action: a,
-      method: method,
-      params: name ? _defineProperty({}, name, formState) : formState,
-      headers: headers
-    }).then(function (res) {
-      setFormResult(res);
-      var status = res.status,
-          response = res.response,
-          headers = res.headers;
-
-      if (status === 200 || status === 201 || status === 204) {
-        documentSnackbarSuccessfulMessage("Success");
-      } else if (status === 422) {
-        documentSnackbarErrorMessage("Kindly correct form errors");
-        var body = JSON.parse(response);
-        setErrors(body.errors);
-        validator.showMessages();
-        setForceUpdate(!forceUpdate);
-      } else {
-        throw Error;
-      }
-    })["catch"](function (err) {
-      return documentSnackbarErrorMessage("An error unoccured");
-    })["finally"](function () {
-      return hideActivityDialog();
-    });
-  };
-
   _react["default"].useEffect(function () {
     formStateRef.current = formState;
   }, [formState]);
@@ -205,17 +132,12 @@ function useForm(_ref) {
     onSetIsEditing: onSetIsEditing,
     onChange: onChange,
     onSetImage: onSetImage,
-    onSubmit: onSubmit,
     formHelper: formHelper,
     onValidate: onValidate,
     setFormState: setFormState,
     errors: errors,
-    formResult: formResult,
     onClearForm: onClearForm,
-    setEditUrl: setEditUrl,
-    valid: valid,
-    handleSubmit: handleSubmit,
-    setErrors: setErrors
+    handleSetErrors: handleSetErrors
   };
 }
 
