@@ -214,7 +214,8 @@ function useForm(_ref) {
     onClearForm: onClearForm,
     setEditUrl: setEditUrl,
     valid: valid,
-    handleSubmit: handleSubmit
+    handleSubmit: handleSubmit,
+    setErrors: setErrors
   };
 }
 
