@@ -127,6 +127,7 @@ function useForm(_ref) {
 
   return {
     formState: formState,
+    formStateRef: formStateRef,
     isEditing: isEditing,
     validator: validator,
     onSetIsEditing: onSetIsEditing,
